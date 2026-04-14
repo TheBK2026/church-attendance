@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Church Attendance</title>
+</head>
+<body>
+
+    <h2>Add Sunday School Class</h2>
+    <form action="/add_class" method="POST">
+        <input type="text" name="name" placeholder="Class Name" required>
+        <button type="submit">Add Class</button>
+    </form>
+
+    <hr>
+
+    <h2>Add Kid</h2>
+    <form action="/add_kid" method="POST">
+        <input type="text" name="name" placeholder="Kid Name" required>
+
+        <select name="class_id">
+            {% for c in classes %}
+                <option value="{{ c[0] }}">{{ c[1] }}</option>
+            {% endfor %}
+        </select>
+
+        <button type="submit">Add Kid</button>
+    </form>
+
+    <hr>
+
+    <h2>Kids List (Mark Attendance)</h2>
+
+    {% for k in kids %}
+        <p>
+            {{ k[1] }} ({{ k[2] }})
+        </p>
+
+        <form action="/mark_attendance" method="POST">
+            <input type="hidden" name="kid_id" value="{{ k[0] }}">
+
+            <button name="status" value="Present">Present</button>
+            <button name="status" value="Absent">Absent</button>
+        </form>
+
+        <hr>
+    {% endfor %}
+
+</body>
+</html>
