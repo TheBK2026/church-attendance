@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kid Profile</title>
+
+<style>
+body {
+    font-family: Arial;
+    padding: 20px;
+    background: #f5f5f5;
+}
+
+.card {
+    background: white;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 10px;
+}
+
+h1 {
+    text-align: center;
+}
+
+.badge {
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: white;
+}
+
+.present { background: green; }
+.absent { background: red; }
+</style>
+
+</head>
+
+<body>
+
+<h1>{{ kid[0] }} {{ kid[1] }}</h1>
+
+<div class="card">
+<h2>Student Info</h2>
+
+<p><b>Father Phone:</b> {{ kid[2] }}</p>
+<p><b>Mother Phone:</b> {{ kid[3] }}</p>
+<p><b>Date of Birth:</b> {{ kid[4] }}</p>
+<p><b>Notes:</b> {{ kid[5] }}</p>
+</div>
+
+<div class="card">
+<h2>Attendance History</h2>
+
+{% for h in history %}
+
+<span class="badge {% if h[1]=='Present' %}present{% else %}absent{% endif %}">
+{{ h[1] }}
+</span>
+
+- {{ h[0] }} <br>
+
+{% endfor %}
+
+</div>
+
+</body>
+</html>

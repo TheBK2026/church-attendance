@@ -1,59 +1,53 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Church Attendance</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Church Attendance</title>
+
+<link rel="stylesheet" href="/static/style.css">
 </head>
 
 <body>
 
-<div class="landing-container">
+<h1>Church Attendance System</h1>
 
-    <!-- LEFT SIDE -->
-    <div class="left-side">
+<!-- ================= MAIN MENU ================= -->
+<div class="card">
 
-        <div class="left-content">
+<h2>Choose Class</h2>
 
-            <!-- TITLE -->
-            <h1>Church Attendance System</h1>
+{% for c in classes %}
+    <a href="/class/{{ c[0] }}">
+        <button class="primary">{{ c[1] }}</button>
+    </a>
+{% endfor %}
 
-            <!-- BUTTONS -->
-            <div class="top-buttons">
+</div>
 
-                <!-- DYNAMIC CLASSES DROPDOWN -->
-                <div class="dropdown">
-                    <button class="dropbtn">Classes</button>
 
-                    <div class="dropdown-content">
+<!-- ================= LOGIN OPTIONS ================= -->
+<div class="card">
 
-                        {% for c in classes %}
-                            <a href="/login?class_id={{ c[0] }}">
-                                {{ c[1] }}
-                            </a>
-                        {% endfor %}
+<h2>Login</h2>
 
-                    </div>
-                </div>
+<a href="/login/admin">
+    <button class="warning">Admin Login</button>
+</a>
 
-                <!-- ADMIN BUTTON -->
-                <a href="/login?role=admin">
-                    <button class="admin-btn">Admin</button>
-                </a>
+<a href="/login/servant">
+    <button class="primary">Servant Login</button>
+</a>
 
-            </div>
+</div>
 
-        </div>
 
-        <!-- VERSE -->
-        <div class="verse">
-            "Let the little children come to me, and do not hinder them." <br>
-            <small>— Matthew 19:14</small>
-        </div>
+<!-- ================= FOOTER ================= -->
+<div class="card">
 
-    </div>
-
-    <!-- RIGHT SIDE IMAGE -->
-    <div class="right-side"></div>
+<p style="text-align:center;">
+"Let the little children come to me..."<br>
+<small>Matthew 19:14</small>
+</p>
 
 </div>
 

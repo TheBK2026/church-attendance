@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reports</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+body {
+    font-family: Arial;
+    padding: 20px;
+    background: #f5f5f5;
+}
+
+h1 {
+    text-align: center;
+    font-size: 30px;
+}
+
+.card {
+    background: white;
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 10px;
+}
+
+.problem {
+    color: red;
+    font-weight: bold;
+}
+</style>
+
+</head>
+
+<body>
+
+<h1>Admin Reports</h1>
+
+<!-- CHART -->
+<div class="card">
+<h2>Weekly Attendance</h2>
+
+<canvas id="chart"></canvas>
+
+<script>
+const ctx = document.getElementById('chart');
+
+new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: {{ labels|tojson }},
+        datasets: [
+            {
+                label: 'Present',
+                data: {{ present|tojson }},
+                backgroundColor: 'green'
+            },
+            {
+                label: 'Absent',
+                data: {{ absent|tojson }},
+                backgroundColor: 'red'
+            }
+        ]
+    }
+});
+</script>
+
+</div>
+
+<!-- PROBLEM KIDS -->
+<div class="card">
+
+<h2>Problem Kids (Absent > 1 time / month)</h2>
+
+{% for k in problem_kids %}
+    <p class="problem">
+        {{ k[0] }} {{ k[1] }} — Absent: {{ k[2] }} times
+    </p>
+{% endfor %}
+
+</div>
+
+</body>
+</html>

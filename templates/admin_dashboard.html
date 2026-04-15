@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin Dashboard</title>
+
+<link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+<h1>Admin Dashboard</h1>
+
+
+<!-- ================= TOP NAVIGATION ================= -->
+<div class="card">
+
+<a href="/">
+    <button class="primary">🏠 Back to Landing Page</button>
+</a>
+
+</div>
+
+
+<!-- ================= CREATE CLASS ================= -->
+<div class="card">
+
+<h2>Create New Class</h2>
+
+<form method="POST" action="/add_class">
+
+<input name="name" placeholder="Class Name" required>
+
+<button class="primary">Add Class</button>
+
+</form>
+
+</div>
+
+
+<!-- ================= SERVANT MANAGEMENT ================= -->
+<div class="card">
+
+<h2>Servant Management</h2>
+
+<form method="POST" action="/add_servant">
+
+<input name="first_name" placeholder="First Name" required>
+<input name="last_name" placeholder="Last Name" required>
+
+<select name="class_id" required>
+    <option value="">Assign Class</option>
+    {% for c in classes %}
+        <option value="{{ c[0] }}">{{ c[1] }}</option>
+    {% endfor %}
+</select>
+
+<button class="primary">Add Servant</button>
+
+</form>
+
+</div>
+
+
+<!-- ================= CURRENT SERVANTS ================= -->
+<div class="card">
+
+<h2>Current Servants</h2>
+
+{% for s in servants %}
+
+<div class="student">
+
+<b>{{ s[1] }} {{ s[2] }}</b><br>
+Class ID: {{ s[4] }}
+
+<form method="POST" action="/switch_servant">
+
+<input type="hidden" name="servant_id" value="{{ s[0] }}">
+
+<select name="class_id">
+    {% for c in classes %}
+        <option value="{{ c[0] }}">{{ c[1] }}</option>
+    {% endfor %}
+</select>
+
+<button class="warning">Switch Class</button>
+
+</form>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+
+<!-- ================= ADD KID (ADMIN - BOTTOM SECTION) ================= -->
+<div class="card">
+
+<h2>➕ Add Kid (Admin)</h2>
+
+<form method="POST" action="/add_kid">
+
+<input name="first_name" placeholder="First Name" required>
+<input name="last_name" placeholder="Last Name" required>
+
+<input name="father_phone" placeholder="Father Phone">
+<input name="mother_phone" placeholder="Mother Phone">
+
+<input type="date" name="dob">
+
+<textarea name="notes" placeholder="Notes (optional)"></textarea>
+
+<select name="class_id" required>
+    <option value="">Select Class</option>
+    {% for c in classes %}
+        <option value="{{ c[0] }}">{{ c[1] }}</option>
+    {% endfor %}
+</select>
+
+<button class="primary">Add Kid</button>
+
+</form>
+
+</div>
+
+</body>
+</html>

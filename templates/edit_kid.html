@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edit Kid</title>
+</head>
+
+<body style="font-family:Arial;padding:20px">
+
+<h1>Edit Kid</h1>
+
+<form method="POST" action="/update_kid/{{ kid[0] }}">
+
+<input name="first_name" value="{{ kid[1] }}">
+<input name="last_name" value="{{ kid[2] }}">
+<input name="father_phone" value="{{ kid[3] }}">
+<input name="mother_phone" value="{{ kid[4] }}">
+<input type="date" name="dob" value="{{ kid[5] }}">
+<input name="notes" value="{{ kid[6] }}">
+
+<button>Update</button>
+
+</form>
+
+</body>
+</html>

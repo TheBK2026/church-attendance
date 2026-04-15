@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Class Dashboard</title>
+
+<style>
+body {
+    font-family: Arial;
+    padding: 15px;
+    background: #f4f4f4;
+}
+
+h1 {
+    text-align: center;
+    font-size: 30px;
+}
+
+.card {
+    background: white;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 10px;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    font-size: 16px;
+}
+
+button {
+    padding: 10px;
+    margin: 5px;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.present { background: green; color: white; }
+.absent { background: red; color: white; }
+.profile { background: #333; color: white; }
+.notes { background: #555; color: white; }
+.filter { background: #007bff; color: white; }
+
+.note-box {
+    display: none;
+    background: #fff8dc;
+    padding: 10px;
+    margin-top: 5px;
+    border-left: 4px solid orange;
+}
+
+.student {
+    padding: 10px;
+    margin: 10px 0;
+    background: #fff;
+    border-radius: 10px;
+}
+
+.hidden {
+    display: none;
+}
+</style>
+
+<script>
+function toggleNotes(id) {
+    var x = document.getElementById(id);
+    x.style.display = (x.style.display === "block") ? "none" : "block";
+}
+
+// SEARCH
+function searchStudents() {
+    let input = document.getElementById("search").value.toLowerCase();
+    let students = document.getElementsByClassName("student");
+
+    for (let i = 0; i < students.length; i++) {
+        let name = students[i].innerText.toLowerCase();
+        students[i].style.display = name.includes(input) ? "block" : "none";
+    }
+}
+
+// FILTER
+function showAll() {
+    let students = document.getElementsByClassName("student");
+    for (let i = 0; i < students.length; i++) {
+        students[i].style.display = "block";
+    }
+}
+</script>
+
+</head>
+
+<body>
+
+<h1>Class Dashboard</h1>
+
+<!-- CLASS SWITCH -->
+<div class="card">
+<h2>Switch Class</h2>
+
+{% for c in classes %}
+    <a href="/class/{{ c[0] }}">
+        <button>{{ c[1] }}</button>
+    </a>
+{% endfor %}
+</div>
+
+<!-- ADD KID -->
+<div class="card">
+<h2>Add New Kid</h2>
+
+<form method="POST" action="/add_kid">
+
+<input name="first_name" placeholder="First Name" required>
+<input name="last_name" placeholder="Last Name" required>
+
+<input name="father_phone" placeholder="Father Phone">
+<input name="mother_phone" placeholder="Mother Phone">
+
+<input type="date" name="dob">
+
+<textarea name="notes" placeholder="Notes"></textarea>
+
+<input type="hidden" name="class_id" value="{{ class_id }}">
+
+<button style="background:#007bff;color:white;">Add Kid</button>
+
+</form>
+</div>
+
+<!-- SEARCH + FILTER -->
+<div class="card">
+<h2>Search Students</h2>
+
+<input type="text" id="search" onkeyup="searchStudents()" placeholder="Search by name...">
+
+<button class="filter" onclick="showAll()">Show All</button>
+</div>
+
+<!-- STUDENTS -->
+<div class="card">
+<h2>Students</h2>
+
+{% for k in kids %}
+
+<div class="student">
+
+<h3>{{ k[1] }} {{ k[2] }}</h3>
+
+<!-- ATTENDANCE -->
+<form method="POST" action="/attendance">
+    <input type="hidden" name="kid_id" value="{{ k[0] }}">
+
+    <button class="present" name="status" value="Present">Present</button>
+    <button class="absent" name="status" value="Absent">Absent</button>
+</form>
+
+<!-- PROFILE -->
+<a href="/kid/{{ k[0] }}">
+    <button class="profile">View Profile</button>
+</a>
+
+<!-- NOTES -->
+<button class="notes" onclick="toggleNotes('n{{k[0]}}')">
+Show Notes
+</button>
+
+<div id="n{{k[0]}}" class="note-box">
+{{ k[6] }}
+</div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+</body>
+</html>
