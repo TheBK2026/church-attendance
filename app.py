@@ -236,9 +236,79 @@ def mark_attendance():
     return redirect('/dashboard')
 
 # ----------------------------
+# Edit KID
+# ----------------------------
+
+@app.route('/edit_kid/<int:kid_id>', methods=['GET'])
+def edit_kid(kid_id):
+
+    if "user" not in session:
+        return "Access Denied"
+
+    conn = sqlite3.connect("church.db")
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * FROM kids WHERE id=?", (kid_id,))
+    kid = cursor.fetchone()
+
+    cursor.execute("SELECT * FROM classes")
+    classes = cursor.fetchall()
+
+    conn.close()
+
+    return render_template("edit_kid.html", kid=kid, classes=classes)
+
+# ----------------------------
+# deleting a kid
+# ----------------------------
+@app.route('/delete_kid/<int:kid_id>', methods=['POST'])
+def delete_kid(kid_id):
+
+    # Admin OR servant can delete (you can tighten later)
+    if "user" not in session:
+        return "Access Denied"
+
+    conn = sqlite3.connect("church.db")
+    cursor = conn.cursor()
+
+    cursor.execute("DELETE FROM kids WHERE id=?", (kid_id,))
+
+    conn.commit()
+    conn.close()
+
+    return redirect('/dashboard')
+
+
+# ----------------------------
+# Save edit
+# ----------------------------
+@app.route('/update_kid/<int:kid_id>', methods=['POST'])
+def update_kid(kid_id):
+
+    if "user" not in session:
+        return "Access Denied"
+
+    name = request.form.get("name")
+    class_id = request.form.get("class_id")
+
+    conn = sqlite3.connect("church.db")
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        UPDATE kids
+        SET name=?, class_id=?
+        WHERE id=?
+    """, (name, class_id, kid_id))
+
+    conn.commit()
+    conn.close()
+
+    return redirect('/dashboard')
+
+# ----------------------------
 # RUN APP
 # ----------------------------
-if __name__ == '__main__':
+if __name__ == "__main__":
     import os
     port = int(os.environ.get("PORT", 10000))
-    app.run(host="0.0.0.0", port=port, debug=False, use_reloader=False)
+    app.run(host="0.0.0.0", port=port)
