@@ -11,11 +11,15 @@
 
     <div class="container">
 
-        <h2>Add Sunday School Class</h2>
-        <form action="/add_class" method="POST" class="card">
-            <input type="text" name="name" placeholder="Class Name" required>
-            <button type="submit">Add Class</button>
-        </form>
+     {% if role == "admin" %}
+
+    <h2>Add Sunday School Class</h2>
+    <form action="/add_class" method="POST">
+    <input type="text" name="name" placeholder="Class Name" required>
+    <button type="submit">Add Class</button>
+    </form>
+
+    {% endif %}
 
         <hr>
 

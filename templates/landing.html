@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Church Attendance</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="landing-container">
+
+    <!-- LEFT SIDE -->
+    <div class="left-side">
+
+        <div class="left-content">
+
+            <!-- TITLE -->
+            <h1>Church Attendance System</h1>
+
+            <!-- BUTTONS -->
+            <div class="top-buttons">
+
+                <!-- DYNAMIC CLASSES DROPDOWN -->
+                <div class="dropdown">
+                    <button class="dropbtn">Classes</button>
+
+                    <div class="dropdown-content">
+
+                        {% for c in classes %}
+                            <a href="/login?class_id={{ c[0] }}">
+                                {{ c[1] }}
+                            </a>
+                        {% endfor %}
+
+                    </div>
+                </div>
+
+                <!-- ADMIN BUTTON -->
+                <a href="/login?role=admin">
+                    <button class="admin-btn">Admin</button>
+                </a>
+
+            </div>
+
+        </div>
+
+        <!-- VERSE -->
+        <div class="verse">
+            "Let the little children come to me, and do not hinder them." <br>
+            <small>— Matthew 19:14</small>
+        </div>
+
+    </div>
+
+    <!-- RIGHT SIDE IMAGE -->
+    <div class="right-side"></div>
+
+</div>
+
+</body>
+</html>
