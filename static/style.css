@@ -1,102 +1,124 @@
-
-body {
-    font-family: Arial, sans-serif;
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+    font-family: Arial;
+}
 
+/* MAIN LAYOUT */
+.landing-container {
+    display: flex;
+    height: 100vh;
+}
+
+/* LEFT SIDE */
+.left-side {
+    width: 50%;
+    background: #111;
+    color: white;
+    position: relative;
+}
+
+/* CENTER CONTENT LEFT SIDE */
+.left-content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;   /* vertical center */
+    align-items: center;       /* horizontal center */
+    gap: 20px;
+    text-align: center;
+}
+
+/* TITLE */
+h1 {
+    font-size: 32px;
+}
+
+/* BUTTON ROW */
+.top-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+/* BUTTONS */
+button {
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+/* ADMIN BUTTON */
+.admin-btn {
+    background: red;
+    color: white;
+}
+
+/* DROPDOWN */
+.dropdown {
+    position: relative;
+}
+
+.dropbtn {
+    background: #2c7be5;
+    color: white;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background: white;
+    min-width: 160px;
+}
+
+.dropdown-content a {
+    display: block;
+    padding: 10px;
+    color: black;
+    text-decoration: none;
+}
+
+.dropdown-content a:hover {
+    background: #eee;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* RIGHT SIDE IMAGE (FULL FIT) */
+.right-side {
+    width: 50%;
     background-image: url("/static/images/background.jpg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    background-attachment: fixed;
-
-    position: relative;
-    z-index: 1;
 }
 
-/* DARK OVERLAY */
-body::before {
-    content: "";
-    position: fixed;
-    top: 0;
+/* VERSE */
+.verse {
+    position: absolute;
+    bottom: 20px;
     left: 0;
     width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.55);
-    z-index: 0;
-}
-
-/* container */
-.container {
-    width: 92%;
-    max-width: 1000px;
-    margin: auto;
-    padding: 20px;
-    position: relative;
-    z-index: 2;
-}
-
-/* headings */
-h2 {
-    color: white;
     text-align: center;
-    margin-top: 20px;
-}
-
-/* cards */
-.card {
-    background: rgba(255,255,255,0.92);
-    padding: 15px;
-    margin: 15px 0;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-}
-
-/* inputs */
-input, select {
-    width: 100%;
-    padding: 10px;
-    margin: 6px 0;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-}
-
-/* buttons */
-button {
-    padding: 10px;
-    margin-top: 8px;
-    border: none;
-    border-radius: 8px;
-    background: #2c7be5;
-    color: white;
-    cursor: pointer;
-    width: 100%;
-}
-
-button:hover {
-    background: #1a5fd1;
-}
-
-/* hr */
-hr {
-    border: none;
-    height: 1px;
-    background: rgba(255,255,255,0.3);
-    margin: 20px 0;
+    font-style: italic;
+    padding: 0 20px;
 }
 
 /* MOBILE */
 @media (max-width: 768px) {
-    .container {
-        width: 95%;
-        padding: 10px;
+    .landing-container {
+        flex-direction: column;
     }
 
-    h2 {
-        font-size: 18px;
+    .left-side, .right-side {
+        width: 100%;
+        height: 50vh;
     }
 
-    button {
-        font-size: 14px;
+    .left-content {
+        justify-content: center;
     }
 }
