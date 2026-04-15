@@ -1,124 +1,129 @@
-* {
+body {
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-    font-family: Arial;
+    background: #f4f6f9;
 }
 
-/* MAIN LAYOUT */
-.landing-container {
-    display: flex;
-    height: 100vh;
-}
-
-/* LEFT SIDE */
-.left-side {
-    width: 50%;
-    background: #111;
-    color: white;
-    position: relative;
-}
-
-/* CENTER CONTENT LEFT SIDE */
-.left-content {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;   /* vertical center */
-    align-items: center;       /* horizontal center */
-    gap: 20px;
-    text-align: center;
-}
-
-/* TITLE */
+/* ===== HEADINGS ===== */
 h1 {
-    font-size: 32px;
+    font-size: 28px;
+    text-align: center;
+    margin: 15px 0;
 }
 
-/* BUTTON ROW */
-.top-buttons {
-    display: flex;
-    gap: 15px;
+h2 {
+    font-size: 22px;
+    margin-bottom: 10px;
 }
 
-/* BUTTONS */
+/* ===== LAYOUT CONTAINERS ===== */
+.card {
+    background: white;
+    margin: 10px;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+/* ===== INPUTS ===== */
+input, textarea, select {
+    width: 100%;
+    padding: 12px;
+    margin: 5px 0;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+/* ===== BUTTONS ===== */
 button {
-    padding: 10px 15px;
+    padding: 10px 14px;
+    margin: 5px 3px;
+    font-size: 16px;
     border: none;
+    border-radius: 8px;
     cursor: pointer;
+    transition: 0.2s;
+}
+
+button:hover {
+    opacity: 0.85;
+}
+
+/* ===== COLORS ===== */
+.present {
+    background: #28a745;
+    color: white;
+}
+
+.absent {
+    background: #dc3545;
+    color: white;
+}
+
+.profile {
+    background: #343a40;
+    color: white;
+}
+
+.notes {
+    background: #6c757d;
+    color: white;
+}
+
+.primary {
+    background: #007bff;
+    color: white;
+}
+
+.warning {
+    background: #ff9800;
+    color: white;
+}
+
+/* ===== STUDENT CARDS ===== */
+.student, .kid {
+    background: white;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 10px;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.05);
+}
+
+/* ===== NOTE BOX ===== */
+.note-box {
+    display: none;
+    background: #fff8dc;
+    padding: 10px;
+    margin-top: 8px;
+    border-left: 5px solid orange;
     border-radius: 6px;
 }
 
-/* ADMIN BUTTON */
-.admin-btn {
-    background: red;
-    color: white;
-}
-
-/* DROPDOWN */
-.dropdown {
-    position: relative;
-}
-
-.dropbtn {
-    background: #2c7be5;
-    color: white;
-}
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background: white;
-    min-width: 160px;
-}
-
-.dropdown-content a {
-    display: block;
-    padding: 10px;
-    color: black;
-    text-decoration: none;
-}
-
-.dropdown-content a:hover {
-    background: #eee;
-}
-
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-
-/* RIGHT SIDE IMAGE (FULL FIT) */
-.right-side {
-    width: 50%;
-    background-image: url("/static/images/background.jpg");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-
-/* VERSE */
-.verse {
-    position: absolute;
-    bottom: 20px;
-    left: 0;
-    width: 100%;
-    text-align: center;
-    font-style: italic;
-    padding: 0 20px;
-}
-
-/* MOBILE */
+/* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 768px) {
-    .landing-container {
-        flex-direction: column;
+
+    h1 {
+        font-size: 22px;
     }
 
-    .left-side, .right-side {
+    h2 {
+        font-size: 18px;
+    }
+
+    button {
         width: 100%;
-        height: 50vh;
+        margin: 5px 0;
     }
 
-    .left-content {
-        justify-content: center;
+    .card {
+        margin: 8px;
+        padding: 12px;
+    }
+
+    input, textarea, select {
+        font-size: 15px;
     }
 }
