@@ -45,7 +45,7 @@ def init_db():
         )
     """)
 
-    # create default admin (only once)
+    # default admin
     cursor.execute("SELECT * FROM users WHERE username='admin'")
     if not cursor.fetchone():
         cursor.execute(
@@ -59,10 +59,27 @@ def init_db():
 init_db()
 
 # ----------------------------
+# LANDING PAGE (HOME)
+# ----------------------------
+@app.route('/')
+def landing():
+
+    conn = sqlite3.connect("church.db")
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * FROM classes")
+    classes = cursor.fetchall()
+
+    conn.close()
+
+    return render_template("landing.html", classes=classes)
+
+# ----------------------------
 # LOGIN
 # ----------------------------
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+
     if request.method == 'POST':
         username = request.form.get("username")
         password = request.form.get("password")
@@ -70,15 +87,17 @@ def login():
         conn = sqlite3.connect("church.db")
         cursor = conn.cursor()
 
-        cursor.execute("SELECT * FROM users WHERE username=? AND password=?", (username, password))
+        cursor.execute(
+            "SELECT * FROM users WHERE username=? AND password=?",
+            (username, password)
+        )
         user = cursor.fetchone()
-
         conn.close()
 
         if user:
             session["user"] = user[1]
             session["role"] = user[3]
-            return redirect("/")
+            return redirect("/dashboard")
         else:
             return "Invalid login"
 
@@ -90,15 +109,16 @@ def login():
 @app.route('/logout')
 def logout():
     session.clear()
-    return redirect('/login')
+    return redirect('/')
 
 # ----------------------------
-# HOME
+# DASHBOARD
 # ----------------------------
-@app.route('/')
-def home():
+@app.route('/dashboard')
+def dashboard():
+
     if "user" not in session:
-        return redirect("/login")
+        return redirect("/")
 
     conn = sqlite3.connect("church.db")
     cursor = conn.cursor()
@@ -115,13 +135,19 @@ def home():
 
     conn.close()
 
-    return render_template("index.html", classes=classes, kids=kids, role=session["role"])
+    return render_template(
+        "index.html",
+        classes=classes,
+        kids=kids,
+        role=session["role"]
+    )
 
 # ----------------------------
 # REPORT (ADMIN ONLY)
 # ----------------------------
 @app.route('/report')
 def report():
+
     if "user" not in session or session.get("role") != "admin":
         return "Access Denied"
 
@@ -144,10 +170,14 @@ def report():
     return render_template("report.html", data=data)
 
 # ----------------------------
-# ADD CLASS
+# ADD CLASS (ADMIN ONLY)
 # ----------------------------
 @app.route('/add_class', methods=['POST'])
 def add_class():
+
+    if "user" not in session or session.get("role") != "admin":
+        return "Access Denied"
+
     name = request.form.get("name")
 
     conn = sqlite3.connect("church.db")
@@ -165,24 +195,29 @@ def add_class():
 # ----------------------------
 @app.route('/add_kid', methods=['POST'])
 def add_kid():
+
     name = request.form.get("name")
     class_id = request.form.get("class_id")
 
     conn = sqlite3.connect("church.db")
     cursor = conn.cursor()
 
-    cursor.execute("INSERT INTO kids (name, class_id) VALUES (?, ?)", (name, class_id))
+    cursor.execute(
+        "INSERT INTO kids (name, class_id) VALUES (?, ?)",
+        (name, class_id)
+    )
 
     conn.commit()
     conn.close()
 
-    return redirect('/')
+    return redirect('/dashboard')
 
 # ----------------------------
-# ATTENDANCE
+# MARK ATTENDANCE
 # ----------------------------
 @app.route('/mark_attendance', methods=['POST'])
 def mark_attendance():
+
     kid_id = request.form.get("kid_id")
     status = request.form.get("status")
     today = str(date.today())
@@ -198,12 +233,11 @@ def mark_attendance():
     conn.commit()
     conn.close()
 
-    return redirect('/')
+    return redirect('/dashboard')
 
 # ----------------------------
-# RUN
+# RUN APP
 # ----------------------------
-
 if __name__ == '__main__':
     import os
     port = int(os.environ.get("PORT", 10000))
